@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="parents">
+    <resultMap id="sample" type="spring.biz.parents.vo.ParentsVO">
+       <result property="user_id" column="user_id"/>
+       <result property="user_info" column="user_info"/>
+       <result property="baby_name" column="baby_name"/>
+       <result property="baby_gender" column="baby_gender"/>
+        <result property="parent_name" column="parent_name"/>
+        <result property="parent_phone" column="parent_phone"/>
+       <result property="address" column="address"/>
+       <result property="rfid" column="rfid"/>
+       <result property="station" column="station"/>
+       <result property="reg_date" column="reg_date"/>
+     
+    </resultMap>
+	
+	<insert id="add" parameterType="parentsvo">
+		insert into parents
+		(user_id, user_info, baby_name, baby_gender, parent_name, parent_phone, address, station)
+		values (#{user_id}, #{user_info}, #{baby_name},
+		#{baby_gender}, #{parent_name}, #{parent_phone}, #{address}, #{station})
+	</insert>
+	
+	<select id="list" resultType="parentsvo">
+		select * from parents
+	</select>
+	
+	<select id="getparents" resultType="parentsvo">
+		select * from parents where user_id = #{user_id}
+	</select>
+	
+				
+</mapper>
+

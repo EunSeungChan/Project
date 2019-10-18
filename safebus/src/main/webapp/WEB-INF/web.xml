@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+ 
+  <display-name>Archetype Created Web Application</display-name>
+  
+    <!-- p405 참조-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	
+	 <!-- 필터는 서블릿 앞에 post 방식의 인코딩 설정 필터 등록  p322 -->
+    <filter>
+   		<filter-name>encodingFilter</filter-name>
+   		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+  		<init-param>
+       		     <param-name>encoding</param-name>
+    	         <param-value>utf-8</param-value>
+	    </init-param>
+    </filter>  
+
+   <filter-mapping>
+	    <filter-name>encodingFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+   </filter-mapping> 
+	
+	
+	 <!-- p405 참조   -->
+	<listener>
+		<listener-class>
+               org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+	</listener>
+  
+  <servlet>
+  	<servlet-name>action</servlet-name>
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<init-param>
+  	  <param-name>contextConfigLocation</param-name>
+  	  <param-value>/WEB-INF/action-servlet.xml</param-value>
+  	</init-param>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+ 
+  <servlet-mapping>
+  	<servlet-name>action</servlet-name>
+  	<url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  
+  <error-page>
+     <error-code>404</error-code>
+     <location>/error_404.jsp</location>
+  </error-page>
+  
+  
+</web-app>

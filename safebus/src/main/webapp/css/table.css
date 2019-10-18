@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+table {
+	margin: 0 auto;
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 600px;
+}
+
+
+th {
+	background-color: black;
+	color: yellow;
+}
+
+.tablea tr:nth-child(2n) {
+	background-color: gray;
+}
+
+h1 , h2, h3 ,h4{
+	text-align: center;
+	margin: 0 auto;
+}

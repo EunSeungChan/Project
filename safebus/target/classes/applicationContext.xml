@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+    
+    <context:annotation-config/>
+    <context:component-scan base-package="spring.biz,aop,tx"/>
+    <aop:aspectj-autoproxy/>
+    
+    <tx:annotation-driven transaction-manager="txManager"/>
+    
+    <bean id="txManager" 
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+         <property name="dataSource" ref="dataSource"/>    
+    </bean>
+    
+    <bean id="dataSource" 
+                class="org.apache.commons.dbcp.BasicDataSource">
+       <property name="driverClassName" 
+                       value="oracle.jdbc.OracleDriver"/>
+       <property name="url" 
+                       value="jdbc:oracle:thin:@70.12.115.78:1521:xe"/>
+       <property name="username" value="SAFE"/>
+       <property name="password" value="BUS"/>
+    </bean>
+    
+    <!-- MyBatis -->
+    <bean id="sqlSessionFactoryBean" 
+                   class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+       
+        <property name="configLocation" 
+                         value="classpath:/mybatis_config.xml"/>
+       <!--  <property name="mapperLocations" 
+                         value="classpath:/mapper/user_mapper.xml"/>
+                                             -->
+    </bean>
+    
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactoryBean"/>
+    </bean>
+    
+    
+    
+    <bean id="template" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <bean id="messageSource" 
+ class="org.springframework.context.support.ResourceBundleMessageSource">
+         <property name="basename">
+               <value>messages.message</value>
+         </property>
+    </bean> 
+    
+    
+    
+    <!--  <bean id="advice" class="aop.Advice"></bean>
+    <aop:config>
+       <aop:pointcut 
+  expression="execution(* spring.biz.user.service.UserService.login(..))" 
+        id="mp"/>
+        <aop:aspect ref="advice">
+             <aop:before pointcut-ref="mp" method="log" />
+             
+             <aop:after-returning  pointcut-ref="mp" returning="data"
+                                  method="after_Return"/>
+                                  
+             <aop:around pointcut-ref="mp" method="around"/>                     
+        </aop:aspect>  
+    </aop:config>
+ -->
+</beans>
